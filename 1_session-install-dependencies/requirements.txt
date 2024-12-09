@@ -1,6 +1,2 @@
 requests
-base64
-json
-mimetypes
 streamlit
-os
