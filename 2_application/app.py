@@ -89,7 +89,7 @@ if st.session_state["image_b64"]:
 
         # Headers for the API request
         headers = {
-            "Authorization": "Bearer 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",  # Add your API key here
+            "Authorization": "Bearer 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",  # Add your API key here
             "Accept": "application/json" if not stream else "text/event-stream",
         }
 

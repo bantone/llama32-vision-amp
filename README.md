@@ -20,15 +20,12 @@ This Accelerator for Machine Learning Projects ("AMP") allows users to perform t
 ## Llama 3.2 90b - Cutting edge visual LLM
 
 ```
+meta/llama-3.2-11b-vision-instruct
 meta/llama-3.2-90b-vision-instruct
 ```
 ![](/assets/screenshots/claude-models.png)
 
-**Haiku:** Anthropic's fastest model that can execute lightweight actions, with industry-leading speed. Ideal for quick tasks where time is of the essence.
-
-**Sonnet:** The best combination of performance and speed for efficient, high-throughput tasks. Strikes a balance between speed and power, making it suitable for most general-purpose tasks.
-
-**Opus:** Anthropic's highest-performing model, capable of handling complex analysis, longer tasks with many steps, and higher-order math and coding tasks. Best for situations where accuracy and depth are prioritized over speed.
+**Llama 3.2 11B/90B:** The Llama 3.2-Vision collection of multimodal large language models (LLMs) is a collection of instruction-tuned image reasoning generative models in 11B and 90B sizes (text + images in / text out). The Llama 3.2-Vision instruction-tuned models are optimized for visual recognition, image reasoning, captioning, and answering general questions about an image. The models outperform many of the available open source and closed multimodal models on common industry benchmarks.
 
 ## Using the Application
 
@@ -75,10 +72,10 @@ There are two ways to launch this prototype on CML:
 
 1. **From Prototype Catalog** - Navigate to the Prototype Catalog on a CML workspace, select the "Document Summarization with Gemini from Vertex AI" tile, click "Launch as Project", click "Configure Project".
 
-2. **As ML Prototype** - In a CML workspace, click "New Project", add a Project Name, select "ML Prototype" as the Initial Setup option, copy in the [repo URL](https://github.com/cloudera/CML_AMP_Image-Analysis-with-Anthropic-Claude), click "Create Project", click "Configure Project".
+2. **As ML Prototype** - In a CML workspace, click "New Project", add a Project Name, select "ML Prototype" as the Initial Setup option, copy in the [repo URL](https://github.com/bantone/llama32-vision-amp), click "Create Project", click "Configure Project".
 
 ### AMP Deployment
-In both cases, you will need to specify the `ANTHROPIC_API_KEY` *(steps in next section on how to create this)* which enables the connection between Anthropic's API and the Application in CML.
+In both cases, you will need to specify the `NVIDIA_API_KEY` *(steps in next section on how to create this)* which enables the connection between Anthropic's API and the Application in CML.
 
 ![](/assets/screenshots/amp-setup.png)
 
@@ -86,15 +83,15 @@ In both cases, you will need to specify the `ANTHROPIC_API_KEY` *(steps in next 
 
 ## Requirements
 
-### Setup API Key with Access to Anthropic
+### Setup NVIDIA API Key
 
-Navigate to https://console.anthropic.com/ and sign up for an account.
+Navigate to https://build.nvidia.com/ and sign up for an account.
 
-![](/assets/screenshots/anthropic-setup-part1.png)
+![](/assets/screenshots/nvidia-setup-1.png)
 
-![](/assets/screenshots/anthropic-setup-part2.png)
+![](/assets/screenshots/nvidia-setup-2.png)
 
-![](/assets/screenshots/anthropic-setup-part3.png)
+![](/assets/screenshots/nvidia-setup-3.png)
 
 
 #### Recommended Runtime
