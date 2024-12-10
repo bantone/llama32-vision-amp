@@ -6,14 +6,14 @@ import json
 
 # Define the Llama-3.2 API endpoints
 llm_options = {
+    "Llama-3.2-11b": {
+        "invoke_url": "https://ai.api.nvidia.com/v1/gr/meta/llama-3.2-11b-vision-instruct/chat/completions",
+        "model": "meta/llama-3.2-11b-vision-instruct"
+    },    
     "Llama-3.2-90b": {
         "invoke_url": "https://ai.api.nvidia.com/v1/gr/meta/llama-3.2-90b-vision-instruct/chat/completions",
         "model": "meta/llama-3.2-90b-vision-instruct"
     },
-    "Llama-3.2-11b": {
-        "invoke_url": "https://ai.api.nvidia.com/v1/gr/meta/llama-3.2-11b-vision-instruct/chat/completions",
-        "model": "meta/llama-3.2-11b-vision-instruct"
-    }
 }
 
 stream = False  # Set to True if you want to stream the response
