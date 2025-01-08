@@ -1,21 +1,18 @@
-# Image Analysis with Anthropic's Claude LLM
-This Accelerator for Machine Learning Projects ("AMP") allows users to perform transcription and information extraction on images using Meta's Llama 3.2 Vision model.  This model is ideal for applications requiring sophisticated visual intelligence, such as image analysis, document processing, multimodal chatbots, and autonomous systems.
+# Image Analysis with Llama 3.2 Vision 11B/90B Models
+This Accelerator for Machine Learning Projects ("AMP") allows users to perform transcription and information extraction on images using Meta's Llama 3.2 Vision model. These series of instruction-tuned models are optimized for visual recognition, image reasoning, captioning, and answering general questions about an image. The models outperform many of the available open source and closed multimodal models on common industry benchmarks.
  
 ![](/assets/llama-meta-logo.png)
 
 
 ## Use Cases Solved With Llama 3.2 Vision Models
 
-1. **Visual Question Answering (VQA) and Visual Reasoning**: Imagine a machine that looks at a picture and understands your questions about it.
+1. **General Image Understanding**: These models have been trained to recognize and count objects within an image as well as quickly identify the contents of the provided image.
 
-2. **Document Visual Question Answering (DocVQA)**: Imagine a computer understanding both the text and layout of a document, like a map or contract, and then answering questions about it directly from the image.
+2. **Image Captioning**: Image captioning bridges the gap between vision and language, extracting details, understanding the scene, and then crafting a sentence or two that tells the story.
 
-3. **Image Captioning**: Image captioning bridges the gap between vision and language, extracting details, understanding the scene, and then crafting a sentence or two that tells the story.
+3. **Image-Text Retrieval**: Image-text retrieval is like a matchmaker for images and their descriptions. Similar to a search engine but one that understands both pictures and words.
 
-4. **Image-Text Retrieval**: Image-text retrieval is like a matchmaker for images and their descriptions. Similar to a search engine but one that understands both pictures and words.
-
-5. **Visual Grounding**: Visual grounding is like connecting the dots between what we see and say. It’s about understanding how language references specific parts of an image, allowing AI models to pinpoint objects or regions based on natural language descriptions.
-
+4. **Visual Grounding**: The models can associate visual elements with corresponding text, allowing them to understand the relationship between images and questions relating to the displayed data.
 
 ## Llama 3.2 90b - Cutting edge visual LLM
 
@@ -67,15 +64,12 @@ Users can easily upload images for processing, manage their image library, and v
 
 ## Deployment
 
-### AMP Deployment Methods
-There are two ways to launch this prototype on CML:
+### Project Setup
 
-1. **From Prototype Catalog** - Navigate to the Prototype Catalog on a CML workspace, select the "Document Summarization with Gemini from Vertex AI" tile, click "Launch as Project", click "Configure Project".
-
-2. **As ML Prototype** - In a CML workspace, click "New Project", add a Project Name, select "ML Prototype" as the Initial Setup option, copy in the [repo URL](https://github.com/bantone/llama32-vision-amp), click "Create Project", click "Configure Project".
+In a CML workspace, click "New Project", add a Project Name, select "ML Prototype" as the Initial Setup option, copy in the [repo URL](https://github.com/bantone/llama32-vision-amp), click "Create Project", click "Configure Project".
 
 ### AMP Deployment
-In both cases, you will need to specify the `NVIDIA_API_KEY` *(steps in next section on how to create this)* which enables the connection between Anthropic's API and the Application in CML.
+In both cases, you will need to specify the `NVIDIA_API_KEY` *(steps in next section on how to create this)* which enables the connection between NVIDIA's API and the Application in CML.
 
 ![](/assets/screenshots/amp-setup.png)
 
@@ -103,25 +97,17 @@ This AMP creates the following workloads with resource requirements:
 - CML Application: `2 CPU, 8GB MEM`
 
 #### External Resources
-This AMP requires pip packages and models from huggingface. Depending on your CML networking setup, you may need to whitelist some domains:
-- pypi.python.org
-- pypi.org
-- pythonhosted.org
-- huggingface.co
-
-Additionally, it will require access to Anthropic's Claude API. Please ensure access to Claude is whitelisted as well.
 
 ## Deploying on CML
 There are two ways to launch this prototype on CML:
 
-1. **From Prototype Catalog** - Navigate to the Prototype Catalog on a CML workspace, select the "Intelligent QA Chatbot with NiFi, Pinecone, and Llama2" tile, click "Launch as Project", click "Configure Project"
+In a CML workspace, click "New Project", add a Project Name, select "ML Prototype" as the Initial Setup option, copy in the [repo URL](https://github.com/bantone/llama32-vision-amp), click "Create Project", click "Configure Project".
 
-2. **As ML Prototype** - In a CML workspace, click "New Project", add a Project Name, select "ML Prototype" as the Initial Setup option, copy in the [repo URL](https://github.com/cloudera/CML_AMP_Image-Analysis-with-Anthropic-Claude), click "Create Project", click "Configure Project"
+## Legal Notice
 
+IMPORTANT: Please read the following before proceeding.  
 
-## The Fine Print
-
-IMPORTANT: Please read the following before proceeding.  This AMP includes or otherwise depends on certain third party software packages.  Information about such third party software packages are made available in the notice file associated with this AMP.  By configuring and launching this AMP, you will cause such third party software packages to be downloaded and installed into your environment, in some instances, from third parties' websites.  For each third party software package, please see the notice file and the applicable websites for more information, including the applicable license terms.
+This AMP includes or otherwise depends on certain third party software packages.  Information about such third party software packages are made available in the notice file associated with this AMP.  By configuring and launching this AMP, you will cause such third party software packages to be downloaded and installed into your environment, in some instances, from third parties' websites.  For each third party software package, please see the notice file and the applicable websites for more information, including the applicable license terms.
 
 If you do not wish to download and install the third party software packages, do not configure, launch or otherwise use this AMP.  By configuring, launching or otherwise using the AMP, you acknowledge the foregoing statement and agree that Cloudera is not responsible or liable in any way for the third party software packages.
 
