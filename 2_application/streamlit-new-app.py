@@ -5,6 +5,7 @@ import mimetypes
 import hashlib
 import uuid
 import json
+import os
 
 # Define the Llama-3.2 API endpoints
 llm_options = {
@@ -73,45 +74,59 @@ with tab1:
         st.image(
             f"data:{st.session_state['selected_image']['mime_type']};base64,{st.session_state['selected_image']['data']}",
             caption="Selected Image",
-            use_container_width=True,
+#            use_container_width=True,
         )
 
-        # Prompt for questions
-        prompt = st.text_input("Ask a question about the image:")
+    payload = None # Ensure payload is always defined
 
-        if prompt:
-            # Prepare the API payload
-            payload = {
-                "model": model,
-                "messages": [
-                    {
-                        "role": "user",
-                        "content": f'{prompt} <img src="data:{st.session_state["selected_image"]["mime_type"]};base64,{st.session_state["selected_image"]["data"]}" />',
-                    }
-                ],
-                "max_tokens": 1024,
-                "temperature": 1.0,
-                "top_p": 1.0,
-                "stream": stream,
-            }
+    # Prompt for questions
+    prompt = st.text_input("Ask a question about the image:")
 
-            # API Request
-            headers = {
-                "Authorization": "Bearer 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",  # Replace with your API key
-                "Accept": "application/json" if not stream else "text/event-stream",
-            }
-            with st.spinner("Processing your question..."):
-                try:
-                    response = requests.post(invoke_url, headers=headers, json=payload)
-                    if response.status_code == 200:
-                        result = response.json()
-                        st.success("AI Response:")
-                        st.json(result)
-                    else:
-                        st.error(f"Error: {response.status_code}")
-                        st.text(response.text)
-                except Exception as e:
-                    st.error(f"Error during API request: {e}")
+    if prompt:
+        # Prepare the API payload
+        payload = {
+            "model": model,
+            "messages": [
+                {
+                    "role": "user",
+                    "content": f'{prompt} <img src="data:{st.session_state["selected_image"]["mime_type"]};base64,{st.session_state["selected_image"]["data"]}" />',
+                }
+            ],
+            "max_tokens": 1024,
+            "temperature": 1.0,
+            "top_p": 1.0,
+            "stream": stream,
+        }
+    # Retrieve the API key from the environment variable
+    api_key = os.getenv("NVIDIA_APIKEY")
+
+    if not api_key:
+        raise ValueError("NVIDIA_APIKEY environment variable is not set!")
+
+    # API Request
+    if payload is not None:
+        api_key = os.getenv("NVIDIA_APIKEY")
+
+    if not api_key:
+        raise ValueError("NVIDIA_APIKEY environment variable is not set!")
+
+    headers = {
+        "Authorization": f"Bearer {api_key}",  # Use the API key from the environment variable
+        "Accept": "application/json" if not stream else "text/event-stream",
+    }
+
+    with st.spinner("Processing your question..."):
+        try:
+            response = requests.post(invoke_url, headers=headers, json=payload)
+            if response.status_code == 200:
+                result = response.json()
+                st.success("AI Response:")
+                st.json(result)
+            else:
+                st.error(f"Error: {response.status_code}")
+                st.text(response.text)
+        except Exception as e:
+            st.error(f"Error during API request: {e}")
 
 # Tab 2: Upload and View Images
 with tab2:
@@ -124,7 +139,7 @@ with tab2:
                 st.image(
                     f"data:{image_data['mime_type']};base64,{image_data['data']}",
                     caption=image_data["name"],
-                    use_container_width=True,
+#                    use_container_width=True,
                 )
             with col2:
                 if st.button("Select", key=f"select_{file_hash}"):

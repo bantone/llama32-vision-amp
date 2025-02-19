@@ -2,14 +2,17 @@ import streamlit as st
 import requests
 import base64
 import mimetypes
+import hashlib
+import uuid
 import json
+import os
 
 # Define the Llama-3.2 API endpoints
 llm_options = {
     "Llama-3.2-11b": {
         "invoke_url": "https://ai.api.nvidia.com/v1/gr/meta/llama-3.2-11b-vision-instruct/chat/completions",
         "model": "meta/llama-3.2-11b-vision-instruct"
-    },    
+    },
     "Llama-3.2-90b": {
         "invoke_url": "https://ai.api.nvidia.com/v1/gr/meta/llama-3.2-90b-vision-instruct/chat/completions",
         "model": "meta/llama-3.2-90b-vision-instruct"
@@ -18,94 +21,102 @@ llm_options = {
 
 stream = False  # Set to True if you want to stream the response
 
-# Streamlit UI
+# Initialize session states
+if "uploaded_images" not in st.session_state:
+    st.session_state["uploaded_images"] = {}
+if "selected_image" not in st.session_state:
+    st.session_state["selected_image"] = None
+
+# Helper function to compute file hash
+def compute_hash(file_data):
+    return hashlib.md5(file_data).hexdigest()
+
+# Tabs
 st.title("Llama 3.2 Vision AMP")
-st.write("Upload an image and ask questions!")
+tab1, tab2 = st.tabs(["Upload and Ask Questions", "Upload and View Images"])
 
-# Initialize session state for storing image data
-if "image_b64" not in st.session_state:
-    st.session_state["image_b64"] = None
-    st.session_state["mime_type"] = None
+# Tab 1: Upload and Ask Questions
+with tab1:
+    st.header("Upload an Image and Ask Questions")
 
-# Select the LLM option
-selected_llm = st.selectbox("Select the LLM Model:", options=list(llm_options.keys()))
-invoke_url = llm_options[selected_llm]["invoke_url"]
-model = llm_options[selected_llm]["model"]
+    # LLM Selection
+    selected_llm = st.selectbox("Select the LLM Model:", options=list(llm_options.keys()))
+    invoke_url = llm_options[selected_llm]["invoke_url"]
+    model = llm_options[selected_llm]["model"]
 
-# Image upload section
-if not st.session_state["image_b64"]:
+    # File Uploader
     uploaded_file = st.file_uploader("Upload an image (.png or .jpg)", type=["png", "jpg", "jpeg"])
 
     if uploaded_file:
-        # Validate MIME type
-        mime_type = mimetypes.guess_type(uploaded_file.name)[0]
-        if mime_type not in ["image/png", "image/jpeg"]:
-            st.error("Unsupported file type. Please upload a PNG or JPG image.")
+        # Read file data and compute hash
+        file_data = uploaded_file.read()
+        file_hash = compute_hash(file_data)
+
+        # Check for duplicates
+        if file_hash not in st.session_state["uploaded_images"]:
+            unique_id = str(uuid.uuid4())
+            mime_type = mimetypes.guess_type(uploaded_file.name)[0]
+            image_data = {
+                "id": unique_id,
+                "name": uploaded_file.name,
+                "mime_type": mime_type,
+                "data": base64.b64encode(file_data).decode(),
+            }
+            st.session_state["uploaded_images"][file_hash] = image_data
+            st.session_state["selected_image"] = image_data
+            st.success("Image uploaded successfully!")
         else:
-            # Read and encode the image
-            try:
-                image_b64 = base64.b64encode(uploaded_file.read()).decode()
-                assert len(image_b64) < 360_000, "Image is too large. Please upload a smaller image."
+            st.warning("This image has already been uploaded.")
 
-                # Store image data in session state
-                st.session_state["image_b64"] = image_b64
-                st.session_state["mime_type"] = mime_type
+    # Display selected image
+    if st.session_state["selected_image"]:
+        st.image(
+            f"data:{st.session_state['selected_image']['mime_type']};base64,{st.session_state['selected_image']['data']}",
+            caption="Selected Image",
+        )
 
-                # Display the uploaded image
-                st.image(uploaded_file, caption="Uploaded Image", use_container_width=True)
-                st.success("Image uploaded successfully! You can now ask questions.")
-
-            except Exception as e:
-                st.error(f"Error processing the image: {e}")
-
-else:
-    # Display the previously uploaded image
-    st.image(f"data:{st.session_state['mime_type']};base64,{st.session_state['image_b64']}",
-             caption="Uploaded Image", use_container_width=True)
-
-# Prompt for questions
-if st.session_state["image_b64"]:
+    # Prompt for questions
     prompt = st.text_input("Ask a question about the image:")
+    payload = None  # Ensure payload is always defined
 
     if prompt:
-        # Prepare the API payload
         payload = {
             "model": model,
             "messages": [
                 {
                     "role": "user",
-                    "content": f'{prompt} <img src="data:{st.session_state["mime_type"]};base64,{st.session_state["image_b64"]}" />',
-                    "image": {
-                        "data": st.session_state["image_b64"],
-                        "mime": st.session_state["mime_type"],
-                    },
+                    "content": f'{prompt} <img src="data:{st.session_state["selected_image"]["mime_type"]};base64,{st.session_state["selected_image"]["data"]}" />',
                 }
             ],
             "max_tokens": 1024,
-            "temperature": 1.00,
-            "top_p": 1.00,
+            "temperature": 1.0,
+            "top_p": 1.0,
             "stream": stream,
         }
 
-        # Headers for the API request
+    # API Request (only if payload is not None)
+    if payload is not None:
+        api_key = os.getenv("NVIDIA_APIKEY")
+
+        if not api_key:
+            raise ValueError("NVIDIA_APIKEY environment variable is not set!")
+
         headers = {
-            "Authorization": "Bearer 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",  # Add your API key here
+            "Authorization": f"Bearer {api_key}",
             "Accept": "application/json" if not stream else "text/event-stream",
+            "Content-Type": "application/json",  # Ensure correct content type
         }
 
-        # Make the API request
         with st.spinner("Processing your question..."):
             try:
                 response = requests.post(invoke_url, headers=headers, json=payload)
-
                 if response.status_code == 200:
                     result = response.json()
                     st.success("AI Response:")
                     st.json(result)
                 else:
-                    st.error(f"Error: API call failed with status code {response.status_code}")
+                    st.error(f"Error: {response.status_code}")
                     st.text(response.text)
-
             except Exception as e:
                 st.error(f"Error during API request: {e}")
 
