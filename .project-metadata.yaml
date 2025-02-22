@@ -1,15 +1,19 @@
 name: Image Analysis with Meta Llama 3.2 Vision
 description: Transcription and Information Extraction from Images with Meta Llama 3.2 Vision.
-author: Cloudera, Inc.
+author: Brandon Antone, Cloudera Inc.
 specification_version: 1.0
 prototype_version: 1.0
 date: "2024-11-18"
 
 environment_variables:
-  NVIDIA_API_KEY:
+  NVIDIA_APIKEY:
     default: ""
     description: "NVIDIA API key for Llama 3.2 Usage."
     required: true
+  NVIDIA_ENDPOINT: 
+    default: ""
+    description: "Endpoint you will use for your model"
+    required: false
 
 runtimes:
   - editor: JupyterLab
@@ -29,8 +33,8 @@ tasks:
     name: Meta Llama 3.2 Image Analysis
     subdomain: meta-llama32 
     script: 2_application/start-app.py
-      #    short_summary: Streamlit application for image analysis with Meta's Llama 3.2 LLM
-      #    long_summary: 
+    short_summary: Launches Streamlit application for image analysis with Meta's Llama 3.2 LLM
+    long_summary: 
     cpu: 2
     memory: 8
     environment_variables:

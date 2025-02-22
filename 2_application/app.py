@@ -7,6 +7,12 @@ import uuid
 import json
 import os
 
+# NVIDIA Environment Variables
+# Later version will allow you to set your endpoint to use for the llm_options variable
+
+NVIDIA_APIKEY = os.getenv("NVIDIA_APIKEY")
+# NVIDIA_ENDPOINT = os.getenv("NVIDIA_ENDPOINT")
+
 # Define the Llama-3.2 API endpoints
 llm_options = {
     "Llama-3.2-11b": {
@@ -96,13 +102,8 @@ with tab1:
 
     # API Request (only if payload is not None)
     if payload is not None:
-        api_key = os.getenv("NVIDIA_APIKEY")
-
-        if not api_key:
-            raise ValueError("NVIDIA_APIKEY environment variable is not set!")
-
         headers = {
-            "Authorization": f"Bearer {api_key}",
+            "Authorization": f"Bearer {NVIDIA_APIKEY}",
             "Accept": "application/json" if not stream else "text/event-stream",
             "Content-Type": "application/json",  # Ensure correct content type
         }
