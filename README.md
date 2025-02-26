@@ -30,38 +30,25 @@ meta/llama-3.2-90b-vision-instruct
 ### 1. Transcribing Typed Text
 The app can easily extract clean and accurate text from typed or printed images, such as scanned PDFs or printouts, allowing users to quickly digitize documents.
 
-![](/assets/screenshots/transcribing-typed-text.png)
-
 ### 2. Transcribing Handwritten Text
 With powerful recognition capabilities, the app can process handwritten notes from images, making it possible to convert personal writings into editable, searchable digital formats.
-
-![](/assets/screenshots/transcribing-handwritten-text.png)
 
 ### 3. Transcibing Forms
 The app preserves the structure and layout of forms while extracting content, ensuring that complex tables, questionnaires, and other structured documents are accurately digitized for data processing.
 
-![](/assets/screenshots/transcribing-forms.png)
-
 ### 4. Complicated Document QA
 Users can ask specific questions about the content of a complex document, and the app leverages the Claude model's capabilities to understand and extract context-based answers from the image.
-
-![](/assets/screenshots/complicated-doc-qa.png)
 
 ### 5. Unstructured Information to JSONs
 The app provides the functionality to convert unstructured or free-form content from images into structured JSON data, enabling easier integration with other systems or databases.
 
-![](/assets/screenshots/unstructured-info-to-json.png)
-
 ### 6. User Defined Prompts
 This feature allows users to input their own custom prompts for Claude to process the image in any way they need, offering advanced flexibility for various unique use cases not covered by predefined options.
-
-![](/assets/screenshots/user-defined.png)
 
 ### 7. Upload Photos
 Users can easily upload images for processing, manage their image library, and view or delete existing images, enabling efficient preparation for all use cases.
 
 ![](/assets/screenshots/upload-images.png)
-
 
 ## Deployment
 
