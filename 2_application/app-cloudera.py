@@ -9,17 +9,18 @@ import os
 
 # NVIDIA Environment Variables
 NVIDIA_APIKEY = os.getenv("NVIDIA_APIKEY")
+CDP_TOKEN = os.getenv("CDP_TOKEN")
 
 # Define the Llama-3.2 API endpoints
 llm_options = {
-    "Llama-3.2-11b": {
-        "invoke_url": "https://ai.api.nvidia.com/v1/gr/meta/llama-3.2-11b-vision-instruct/chat/completions",
+    "Llama-3.2-11b-vision-4xa10g": {
+        "invoke_url": "https://caii-prod-long-running.eng-ml-l.vnu8-sqze.cloudera.site/namespaces/serving-default/endpoints/llama-32-11b-vision-4xa10g/v1/chat/completions",
         "model": "meta/llama-3.2-11b-vision-instruct"
     },
-    "Llama-3.2-90b": {
-        "invoke_url": "https://ai.api.nvidia.com/v1/gr/meta/llama-3.2-90b-vision-instruct/chat/completions",
-        "model": "meta/llama-3.2-90b-vision-instruct"
-    },
+#    "Llama-3.2-90b": {
+#        "invoke_url": "https://ai.api.nvidia.com/v1/gr/meta/llama-3.2-90b-vision-instruct/chat/completions",
+#        "model": "meta/llama-3.2-90b-vision-instruct"
+#    },
 }
 
 stream = False  # Set to True if you want to stream the response
@@ -98,7 +99,8 @@ with tab1:
 
     if payload is not None:
         headers = {
-            "Authorization": f"Bearer {NVIDIA_APIKEY}",
+#            "Authorization": f"Bearer {NVIDIA_APIKEY}",
+            "Authorization": f"Bearer {CDP_TOKEN}",
             "Accept": "application/json" if not stream else "text/event-stream",
             "Content-Type": "application/json",
         }

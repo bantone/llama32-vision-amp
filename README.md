@@ -20,7 +20,8 @@ This Accelerator for Machine Learning Projects ("AMP") allows users to perform t
 meta/llama-3.2-11b-vision-instruct
 meta/llama-3.2-90b-vision-instruct
 ```
-![](/assets/screenshots/claude-models.png)
+
+![](/assets/screenshots/output-example.png)
 
 **Llama 3.2 11B/90B:** The Llama 3.2-Vision collection of multimodal large language models (LLMs) is a collection of instruction-tuned image reasoning generative models in 11B and 90B sizes (text + images in / text out). The Llama 3.2-Vision instruction-tuned models are optimized for visual recognition, image reasoning, captioning, and answering general questions about an image. The models outperform many of the available open source and closed multimodal models on common industry benchmarks.
 
