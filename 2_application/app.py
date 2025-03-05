@@ -130,3 +130,18 @@ with tab2:
     else:
         st.info("No images uploaded yet.")
 
+
+
+# User-adjustable parameters
+st.sidebar.header("Model Parameters")
+
+max_tokens = st.sidebar.slider("Max Tokens", min_value=1024, max_value=10240, step=1024, value=1024)
+temperature = st.sidebar.slider("Temperature", min_value=0.0, max_value=2.0, step=0.1, value=1.0)
+top_p = st.sidebar.slider("Top P", min_value=0.0, max_value=1.0, step=0.1, value=1.0)
+
+# Add these parameters to the request payload when making API calls
+request_payload = {
+    "max_tokens": max_tokens,
+    "temperature": temperature,
+    "top_p": top_p
+}
